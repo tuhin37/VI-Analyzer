@@ -12,8 +12,8 @@ void setup() {
     flags.SD = 1;
     flags.splashScreen = 1;
     globals.sdUsage = 12;
-    flags.activeLoad =1;
-    globals.loadVoltage = 3.7;
+    flags.activeLoad =0;
+    globals.loadVoltage = 31.234;
     clock.hour = 12;
     clock.minute = 17;
     clock.second = 30;
