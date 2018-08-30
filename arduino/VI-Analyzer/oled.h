@@ -28,6 +28,8 @@ void initOLED() {
 
 
 void updateDisplay() {
+    uint8_t Ypos = 0;
+    uint8_t Xpos = 0;
     u8g.firstPage();
     do {
         
@@ -69,79 +71,132 @@ void updateDisplay() {
         u8g.setPrintPos(105, 10);
         u8g.print(globals.battery);
 
-
-        // clock at down-left 
-        u8g.setPrintPos(0, 64);
-        u8g.print(clock.hour);
-        u8g.drawStr(14, 64, ":");
-        u8g.setPrintPos(22, 64);
-        u8g.print(clock.minute);
-        u8g.drawStr(35, 64, ":");
-        u8g.setPrintPos(43, 64);
-        u8g.print(clock.second);
-
     
 
         // Body of the display
         // if the load switch is off
         if(!flags.load) {
+
+            // show source voltage 
+            Ypos = 41   ;
             u8g.setFont(u8g_font_helvB12);
             // show source voltage
             if(globals.sourceVolt>0 && globals.sourceVolt <10) {
-                u8g.setPrintPos(0, 35);
+                u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(33, 35, "V"); 
+                u8g.drawStr(33, Ypos, "V"); 
             }
             else if(globals.sourceVolt>=10) {
-                u8g.setPrintPos(0, 35);
+                u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(42, 35, "V");
+                u8g.drawStr(42, Ypos, "V");
             }
             else if(globals.sourceVolt<=0.2) {
-                u8g.drawStr(0, 35, "N/A");
+                u8g.drawStr(0, Ypos, "N/A");
             }
 
             // if load is of active type then show load voltage
-
             if(flags.activeLoad) {
-                u8g.setPrintPos(85, 35);
+                u8g.setPrintPos(85, Ypos);
                 u8g.print(globals.loadVoltage);
-                u8g.drawStr(117, 35, "V"); 
+                u8g.drawStr(117, Ypos, "V"); 
+            }
+
+
+            // show mWh data
+            Ypos = 64;
+            Xpos = 0;
+            if(globals.mWh<10) {
+                u8g.setPrintPos(Xpos+0, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(Xpos+12, Ypos, "mWh");
+            }
+            else if(globals.mWh>=10 && globals.mWh<100) {
+                u8g.setPrintPos(Xpos+0, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(Xpos+23, Ypos, "mWh");
+            }
+            else if(globals.mWh>=100 && globals.mWh<1000) {
+                u8g.setPrintPos(Xpos+0, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(Xpos+32, Ypos, "mWh");
+            }
+            else if(globals.mWh>=1000 && globals.mWh<10000) {
+                u8g.setPrintPos(Xpos+0, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(Xpos+43, Ypos, "mWh");
+            }
+            else {
+                float Wh = 0;
+                Wh = globals.mWh/1000.0;
+                u8g.setPrintPos(Xpos+0, Ypos);
+                if(globals.mWh>=10000 && globals.mWh<100000) {
+                    u8g.print(Wh,2);
+                    u8g.drawStr(Xpos+43, Ypos, "Wh");    
+                }
+                else if(globals.mWh>=100000 && globals.mWh<1000000) {
+                    u8g.print(Wh,1);
+                    u8g.drawStr(Xpos+43, Ypos, "Wh");
+                }
+                else {    
+                    u8g.setPrintPos(Xpos+0, Ypos);
+                    u8g.print(Wh,0);
+                    u8g.drawStr(Xpos+39, Ypos, "Wh");
+                }
+                
             }
 
         }
         // if load switch is pressed
         else{
-            u8g.setFont(u8g_font_helvR08);
+            // clock at down-left 
+            u8g.setPrintPos(0, 64);
+            u8g.print(clock.hour);
+            u8g.drawStr(14, 64, ":");
+            u8g.setPrintPos(22, 64);
+            u8g.print(clock.minute);
+            u8g.drawStr(35, 64, ":");
+            u8g.setPrintPos(43, 64);
+            u8g.print(clock.second);
+
             
             // show source voltage
+            u8g.setFont(u8g_font_helvR08);            
+            Ypos = 38;
             if(globals.sourceVolt>0 && globals.sourceVolt <10) {
-                u8g.setPrintPos(0, 35);
+                u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(23, 35, "V"); 
+                u8g.drawStr(23, Ypos, "V"); 
             }
             else if(globals.sourceVolt>=10) {
-                u8g.setPrintPos(0, 35);
+                u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(30, 35, "V");
+                u8g.drawStr(30, Ypos, "V");
             }
             else if(globals.sourceVolt<=0.2) {
-                u8g.drawStr(0, 35, "N/A");
+                u8g.drawStr(0, Ypos, "N/A");
             }
 
             // show load Impedance
+            if(flags.log) {
+                 Ypos = 30;
+            }
+            else {
+                Ypos = 37;
+            }
+
             if(globals.loadimpedance <100) {   // if current is non zero
-                u8g.setPrintPos(110, 35);
+                u8g.setPrintPos(110, Ypos);
                 u8g.print(globals.loadimpedance);
-                u8g.drawStr(123, 35, "E");   
+                u8g.drawStr(123, Ypos, "E");   
             }
             else if(globals.loadimpedance>=100 && globals.loadimpedance <1000) {
-                u8g.setPrintPos(104, 35);
+                u8g.setPrintPos(104, Ypos);
                 u8g.print(globals.loadimpedance);
-                u8g.drawStr(123, 35, "E");
+                u8g.drawStr(123, Ypos, "E");
             }
             else if(globals.loadimpedance>=1000) {
-                u8g.setPrintPos(104, 35);
+                u8g.setPrintPos(104, Ypos);
                 float impedance = globals.loadimpedance/1000.0;
                 if(globals.loadimpedance%1000){
                     u8g.print(impedance, 1);
@@ -149,15 +204,16 @@ void updateDisplay() {
                 else {
                     u8g.print(impedance, 0);
                 }
-                u8g.drawStr(122, 35, "K");
+                u8g.drawStr(122, Ypos, "K");
             }
 
             // show watt
             uint16_t mW;
+            Ypos += 15;
             mW = globals.watt*1000;
             if(globals.watt >=1) {
-                u8g.drawStr(119, 50, "W");
-                u8g.setPrintPos(96, 50);
+                u8g.drawStr(119, Ypos, "W");
+                u8g.setPrintPos(96, Ypos);
                 if(globals.watt <10) {
                     u8g.print(globals.watt, 2);
                 }
@@ -165,61 +221,115 @@ void updateDisplay() {
                     u8g.print(globals.watt, 1);
                 }
                 else {
-                    u8g.setPrintPos(99, 50);
+                    u8g.setPrintPos(99, Ypos);
                     u8g.print(globals.watt, 0);
                 }
             }
             else {
-                u8g.drawStr(111, 50, "mW");
+                u8g.drawStr(111, Ypos+15, "mW");
                 if(mW<10){
-                    u8g.setPrintPos(103, 50);
+                    u8g.setPrintPos(103, Ypos);
                     u8g.print(mW);
                 }
                 if(mW>=10 && mW<100){
-                    u8g.setPrintPos(95, 50);
+                    u8g.setPrintPos(95, Ypos);
                     u8g.print(mW);
                 }
                 else {
-                    u8g.setPrintPos(89, 50);
+                    u8g.setPrintPos(89, Ypos);
                     u8g.print(mW);
-                    
                 }
             }
 
+            // show miliWatt-hour 
+            if(flags.log) {
+                Ypos = 48;    
+            }
+            else {
+                Ypos = 51; 
+            }
+            if(globals.mWh<10) {
+                u8g.setPrintPos(50, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(58, Ypos, "mWh");
+            }
+            else if(globals.mWh>=10 && globals.mWh<100) {
+                u8g.setPrintPos(46, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(62, Ypos, "mWh");
+            }
+            else if(globals.mWh>=100 && globals.mWh<1000) {
+                u8g.setPrintPos(40, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(62, Ypos, "mWh");
+            }
+            else if(globals.mWh>=1000 && globals.mWh<10000) {
+                u8g.setPrintPos(37, Ypos);
+                u8g.print(globals.mWh);
+                u8g.drawStr(66, Ypos, "mWh");
+            }
+            else {
+                float Wh = 0;
+                Wh = globals.mWh/1000.0;
+                u8g.setPrintPos(40, Ypos);
+                if(globals.mWh>=10000 && globals.mWh<100000)
+                    u8g.print(Wh,2);
+                else if(globals.mWh>=100000 && globals.mWh<1000000)
+                    u8g.print(Wh,1);
+                else {    
+                    u8g.setPrintPos(44, Ypos);
+                    u8g.print(Wh,0);
+                }
+                u8g.drawStr(70, Ypos, "Wh");
+            }
+
+
 
             // show load current
+            if(flags.log) {
+                Ypos = 32;
+            }
+            else {
+                Ypos = 35;
+            }
+            
             u8g.setFont(u8g_font_helvB12);
             uint16_t mA;
             mA = globals.current*1000;
 
             if(globals.current >= 1) {
-                u8g.setPrintPos(38, 35);
+                u8g.setPrintPos(38, Ypos);
                 u8g.print(globals.current, 2);
-                u8g.drawStr(74, 35, "A");
+                u8g.drawStr(74, Ypos, "A");
             }
             else {
                 if(mA<10) {
-                    u8g.setPrintPos(45, 35);
-                    u8g.print(mA, 0);
-                    u8g.drawStr(57, 35, "mA");
+                    u8g.setPrintPos(45, Ypos);
+                    u8g.print(mA);
+                    u8g.drawStr(57, Ypos, "mA");
                 }
                 else if(mA >=10 && mA < 100) {
-                    u8g.setPrintPos(40, 35);
-                    u8g.print(mA, 0);
-                    u8g.drawStr(62, 35, "mA");
+                    u8g.setPrintPos(40, Ypos);
+                    u8g.print(mA);
+                    u8g.drawStr(62, Ypos, "mA");
                 }
                 else {
-                    u8g.setPrintPos(37, 35);
-                    u8g.print(mA, 0);
-                    u8g.drawStr(71, 35, "mA");
+                    u8g.setPrintPos(38, Ypos);
+                    u8g.print(mA);
+                    u8g.drawStr(67, Ypos, "mA");
                 }
             }
 
+            // dummy 
+            if(flags.log) {
+                u8g.setFont(u8g_font_helvR08);
+                u8g.drawStr(80, 64, "Bla bla bla");
+            }
+
+
+
             
         }
-
-        // u8g.setPrintPos(30, 50);
-        // u8g.print(globals.loadResistance);
 
             
     } 

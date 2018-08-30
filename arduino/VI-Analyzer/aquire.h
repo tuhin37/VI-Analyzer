@@ -20,6 +20,9 @@ void checkSwitches() {
     
     //dummy
     globals.loadimpedance = 30;
-    globals.current = 1.223;
+    globals.current = 0.223;
     globals.watt = 167.345;
+    globals.fileSize = 443;
+    flags.log=0;
+    globals.mWh = 7;
  }

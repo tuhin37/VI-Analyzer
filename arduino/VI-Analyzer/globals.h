@@ -8,6 +8,8 @@ struct global{
     uint32_t loadimpedance;    // this is calculated during discharge. Impedance = v/I
     float current;
     float watt;
+    uint32_t fileSize;
+    uint32_t mWh;
 } globals;
 
 struct flag {
@@ -17,6 +19,7 @@ struct flag {
     uint8_t splashScreen: 1;
     uint8_t SD: 1;
     uint8_t activeLoad: 1;
+    uint8_t log: 1;
 } flags;
 
 struct clocks {

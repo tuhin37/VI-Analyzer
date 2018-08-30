@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:drg",
+    "port": "COM21",
+    "sketch": "VI-Analyzer.ino"
+}
