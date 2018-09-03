@@ -29,7 +29,7 @@ void checkSwitches() {
     else 
         globals.current = 0;
 
-    // calculate power
+    // calculate power (in watt)
     globals.watt = globals.current * globals.sourceVolt;
 
 
