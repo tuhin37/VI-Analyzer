@@ -33743,7 +33743,7 @@ Switch</text>
 <pinref part="C4" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="I-OUT" class="0">
+<net name="ACS-OUT" class="0">
 <segment>
 <pinref part="U$5" gate="G$1" pin="IP-@3"/>
 <pinref part="U$5" gate="G$1" pin="IP-@4"/>
@@ -33823,7 +33823,7 @@ Switch</text>
 <pinref part="IC3" gate="A" pin="+IN"/>
 </segment>
 </net>
-<net name="N$36" class="0">
+<net name="POT_OFFSET" class="0">
 <segment>
 <pinref part="R24" gate="G$1" pin="2"/>
 <pinref part="R27" gate="G$1" pin="3"/>

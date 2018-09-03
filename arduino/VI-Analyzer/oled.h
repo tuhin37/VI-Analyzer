@@ -50,10 +50,24 @@ void updateDisplay() {
             u8g.setPrintPos(20, 10);
             u8g.print(globals.sdUsage );
         }
+        else {
+            u8g.drawStr(0, 10, "NO-SD");
+        }
         
         // HI-RES ICON
         if(flags.hiRes) {
-            u8g.drawStr(46, 10, "HD");
+            if(flags.overDrop) {
+                if(flags.tickTock) {
+                    u8g.drawStr(46, 10, "HD");
+                }
+                else {
+                    u8g.drawStr(46, 10, "HD");
+                }
+
+            }
+            else {
+                u8g.drawStr(46, 10, "HD");
+            }
         }
         
         // LOAD ICON
@@ -94,6 +108,8 @@ void updateDisplay() {
             else if(globals.sourceVolt<=0.2) {
                 u8g.drawStr(0, Ypos, "N/A");
             }
+
+
 
             // if load is of active type then show load voltage
             if(flags.activeLoad) {
@@ -233,7 +249,7 @@ void updateDisplay() {
                 Ypos = 37;
             }
 
-            if(!globals.loadimpedance) {
+            if(globals.loadimpedance == 0 && globals.current>1) {
                 u8g.drawStr(92, Ypos, "SHORT");
             }
             else if(globals.loadimpedance>0 && globals.loadimpedance <10) {
@@ -290,18 +306,21 @@ void updateDisplay() {
                 }
             }
             else {
-                u8g.drawStr(111, Ypos+15, "mW");
-                if(mW<10){
+                if(!globals.watt);
+                else if(mW<10){
                     u8g.setPrintPos(103, Ypos);
                     u8g.print(mW);
+                    u8g.drawStr(111, Ypos, "mW");
                 }
-                if(mW>=10 && mW<100){
+                else if(mW>=10 && mW<100){
                     u8g.setPrintPos(95, Ypos);
                     u8g.print(mW);
+                    u8g.drawStr(111, Ypos, "mW");
                 }
                 else {
                     u8g.setPrintPos(89, Ypos);
                     u8g.print(mW);
+                    u8g.drawStr(111, Ypos, "mW");
                 }
             }
 

@@ -20,6 +20,8 @@ struct flag {
     uint8_t SD: 1;
     uint8_t activeLoad: 1;
     uint8_t log: 1;
+    uint8_t tickTock: 1;
+    uint8_t overDrop: 1;
 } flags;
 
 struct clocks {

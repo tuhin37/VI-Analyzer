@@ -18,3 +18,11 @@
 // ADC PINS
 #define SRC_VOLT_PIN A0
 #define LOAD_VOLT_PIN A1
+#define HD_CURR_PIN A2
+
+
+//ADS PIN
+#define ADS_SRC_VOLT_PIN 3
+#define ADS_HD_CURR_PIN 2
+#define ADS_ACS_PIN 0
+#define ADS_AMPED_ACS_PIN 1
