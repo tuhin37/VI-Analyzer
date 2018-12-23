@@ -18,14 +18,15 @@ kalman acsADCFilter;
 void oneSecCallback(void);
 
 void setup() {
+    delay(5000);
     acsADCFilter.setAccuracy(0.1);
-    //Serial.begin(9600);
+    Serial.begin(9600);
     // dummy section
     flags.splashScreen = 1;
     // flags.SD=1;
-    globals.sdUsage = 12;
-    globals.battery = 73;
-    globals.loadResistance=1000000;
+    // globals.sdUsage = 12;
+    // globals.battery = 73;
+    // globals.loadResistance=1000000;
 
     initOLED();
 

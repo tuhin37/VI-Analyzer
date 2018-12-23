@@ -95,7 +95,7 @@ void updateDisplay() {
             Ypos = 41   ;
             u8g.setFont(u8g_font_helvB12);
             // show source voltage
-            if(globals.sourceVolt>0 && globals.sourceVolt <10) {
+            if(globals.sourceVolt>=0.1 && globals.sourceVolt <10) {
                 u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
                 u8g.drawStr(33, Ypos, "V"); 
@@ -105,7 +105,7 @@ void updateDisplay() {
                 u8g.print(globals.sourceVolt);
                 u8g.drawStr(42, Ypos, "V");
             }
-            else if(globals.sourceVolt<=0.2) {
+            else if(globals.sourceVolt<0.1) {
                 u8g.drawStr(0, Ypos, "N/A");
             }
 
@@ -227,7 +227,7 @@ void updateDisplay() {
             // show source voltage
             u8g.setFont(u8g_font_helvR08);            
             Ypos = 38;
-            if(globals.sourceVolt>0 && globals.sourceVolt <10) {
+            if(globals.sourceVolt>=0.1 && globals.sourceVolt <10) {
                 u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
                 u8g.drawStr(23, Ypos, "V"); 
@@ -237,7 +237,7 @@ void updateDisplay() {
                 u8g.print(globals.sourceVolt);
                 u8g.drawStr(28, Ypos, "V");
             }
-            else if(globals.sourceVolt<=0.2) {
+            else if(globals.sourceVolt<0.1) {
                 u8g.drawStr(0, Ypos, "N/A");
             }
 

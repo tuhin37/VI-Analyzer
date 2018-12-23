@@ -11,13 +11,29 @@ void checkSwitches() {
     float filteredData;
 
     // get source voltage
-    sourceVoltRaw = analogRead(SRC_VOLT_PIN);
-    if(sourceVoltRaw == 0) {
-        globals.sourceVolt = 0;
+    adcRaw = ads.readADC_SingleEnded(ADS_SRC_VOLT_PIN);
+    
+    if(adcRaw<41) {
+        globals.sourceVolt=0;
+    }
+    else if(adcRaw>=41 && adcRaw<=1468) {
+        globals.sourceVolt =  0.003499*adcRaw - 0.1361;
+    }
+    else if(adcRaw>adcRaw && adcRaw<=2892) {
+        globals.sourceVolt =  0.003513*adcRaw - 0.1578;
     }
     else {
-        globals.sourceVolt = (sourceVoltRaw * 0.03007) + 0.0691;
+        globals.sourceVolt =  0.003568*adcRaw - 0.3469;
     }
+
+
+
+    Serial.print("Voltage: ");
+    Serial.println(globals.sourceVolt);
+    
+
+    //Serial.print("RAW Volt: ");
+    //Serial.println(sourceVoltRaw);
 
     
 
