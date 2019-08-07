@@ -9,7 +9,7 @@ struct global{
     float current;
     float watt;
     uint32_t fileSize;
-    uint32_t mWh;
+    float mWh;
 } globals;
 
 struct flag {
@@ -24,6 +24,22 @@ struct flag {
     uint8_t overDrop: 1;
 } flags;
 
+struct text {
+    char* e = "E";
+    char* k = "K";
+    char* sd = "SD";
+    char* hd = "HD";
+    char* v = "V";
+    char* mWh = "mWh";
+    char* Wh = "Wh";
+    char* na = "N/A";
+    char* shrt = "SHORT";
+    char* opn = "OPEN";
+    char* wr = "Wh";
+    char* mW = "mW";
+    char* mA = "mA";
+} texts;
+
 struct clocks {
     uint8_t hour;
     uint8_t minute;
@@ -35,3 +51,7 @@ void resetClock() {
     clock.minute = 0;
     clock.second = 0;
 }
+
+
+
+

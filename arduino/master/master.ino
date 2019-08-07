@@ -3,7 +3,7 @@
 #include "kalman.h"
 
 Adafruit_ADS1115 ads(0x48);
-kalman acsADCFilter;
+kalman acsFilter, acsAmpedFilter, sourceVoltfilter;
 
 #include "config.h"
 #include "globals.h"
@@ -18,8 +18,11 @@ kalman acsADCFilter;
 void oneSecCallback(void);
 
 void setup() {
+    
+    // initialize all character constant
+
     delay(5000);
-    acsADCFilter.setAccuracy(0.1);
+   
     Serial.begin(9600);
     // dummy section
     flags.splashScreen = 1;
@@ -31,22 +34,26 @@ void setup() {
     initOLED();
 
     // one second interrupt callback
-    Timer1.initialize(1000000);         // initialize timer1, and set a 1/2 second period
+    Timer1.initialize(1000000);         // initialize timer1, and set a 1 second period
     Timer1.attachInterrupt(oneSecCallback);  // attaches callback() as a timer overflow interrupt
     analogReference(EXTERNAL);
+
+    //make pull up as output
+    // pinMode(PULL_UP, OUTPUT);
+    Serial.println("hello there");
+
 }
 
 void loop() {
     checkSwitches();
     aquireParams();
-    
     updateDisplay();
 }
 
 
 
 void oneSecCallback() {
-
+    
     //Serial.println(globals.current);
     flags.splashScreen=0;
     if(flags.tickTock) {
@@ -59,6 +66,11 @@ void oneSecCallback() {
     // start clock id load switch is pressed
     if(flags.load) {
         clock.second++;
+        // cululate the mWh    
+        globals.mWh += (globals.watt*5)/18;;
+       
+
+        
         
         if(clock.second==60) {
             clock.second=0;

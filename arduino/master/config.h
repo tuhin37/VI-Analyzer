@@ -26,3 +26,7 @@
 #define ADS_HD_CURR_PIN 2
 #define ADS_ACS_PIN 0
 #define ADS_AMPED_ACS_PIN 1
+
+
+//MISC
+#define PULL_UP 5

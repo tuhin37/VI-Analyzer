@@ -1,4 +1,3 @@
-
 #include "U8glib.h"
 U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_DEV_0|U8G_I2C_OPT_NO_ACK|U8G_I2C_OPT_FAST); // Fast I2C / TWI 
 
@@ -45,7 +44,7 @@ void updateDisplay() {
         u8g.setFont(u8g_font_6x10);
         //SD CARD ICON
         if(flags.SD) {
-            u8g.drawStr(0, 10, "SD");
+            u8g.drawStr(0, 10, texts.sd);
             u8g.drawStr(33, 10, "%");
             u8g.setPrintPos(20, 10);
             u8g.print(globals.sdUsage );
@@ -58,15 +57,15 @@ void updateDisplay() {
         if(flags.hiRes) {
             if(flags.overDrop) {
                 if(flags.tickTock) {
-                    u8g.drawStr(46, 10, "HD");
+                    u8g.drawStr(46, 10, texts.hd);
                 }
                 else {
-                    u8g.drawStr(46, 10, "HD");
+                    u8g.drawStr(46, 10, texts.hd);
                 }
 
             }
             else {
-                u8g.drawStr(46, 10, "HD");
+                u8g.drawStr(46, 10, texts.hd);
             }
         }
         
@@ -98,15 +97,15 @@ void updateDisplay() {
             if(globals.sourceVolt>=0.1 && globals.sourceVolt <10) {
                 u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(33, Ypos, "V"); 
+                u8g.drawStr(33, Ypos, texts.v); 
             }
             else if(globals.sourceVolt>=10) {
                 u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(42, Ypos, "V");
+                u8g.drawStr(42, Ypos, texts.v);
             }
             else if(globals.sourceVolt<0.1) {
-                u8g.drawStr(0, Ypos, "N/A");
+                u8g.drawStr(0, Ypos, texts.na);
             }
 
 
@@ -121,45 +120,45 @@ void updateDisplay() {
                     u8g.setPrintPos(75, Ypos);
                     u8g.print(globals.loadVoltage);
                 }
-                u8g.drawStr(117, Ypos, "V"); 
+                u8g.drawStr(117, Ypos, texts.v); 
             }
             // else show load resistance
             else {
                 if(!globals.loadResistance) {
-                    u8g.drawStr(70, Ypos, "SHORT");
+                    u8g.drawStr(70, Ypos, texts.shrt);
                 }
                 else if(globals.loadResistance>0 &&globals.loadResistance<10) {
                     u8g.setPrintPos(107, Ypos);
                     u8g.print(globals.loadResistance);
-                    u8g.drawStr(117, Ypos, "E");
+                    u8g.drawStr(117, Ypos, texts.e);
                 }
                 else if(globals.loadResistance >=10 && globals.loadResistance<100) {
                     u8g.setPrintPos(97, Ypos);
                     u8g.print(globals.loadResistance);
-                    u8g.drawStr(117, Ypos, "E");
+                    u8g.drawStr(117, Ypos, texts.e);
                 }
                 else if(globals.loadResistance>=100 && globals.loadResistance<1000) {
                     u8g.setPrintPos(87, Ypos);
                     u8g.print(globals.loadResistance);
-                    u8g.drawStr(117, Ypos, "E");
+                    u8g.drawStr(117, Ypos, texts.e);
                 }
-                else if(globals.loadResistance >=1000 && globals.loadResistance<10000){
+                else if(globals.loadResistance >=1000 && globals.loadResistance<10000) {
                     u8g.setPrintPos(85, Ypos);
                     u8g.print(globals.loadResistance/1000.0, 2);
-                    u8g.drawStr(117, Ypos, "K");
+                    u8g.drawStr(117, Ypos, texts.k);
                 }
                 else if(globals.loadResistance>= 10000 && globals.loadResistance<100000) {
                     u8g.setPrintPos(85, Ypos);
                     u8g.print(globals.loadResistance/1000.0, 1);
-                    u8g.drawStr(117, Ypos, "K");
+                    u8g.drawStr(117, Ypos, texts.k);
                 }
                 else if(globals.loadResistance>=100000 && globals.loadResistance<1000000) {
                     u8g.setPrintPos(87, Ypos);
                     u8g.print(globals.loadResistance/1000.0, 0);
-                    u8g.drawStr(117, Ypos, "K");   
+                    u8g.drawStr(117, Ypos, texts.k);   
                 }
                 else if(globals.loadResistance>=1000000) {
-                    u8g.drawStr(80, Ypos, "OPEN");  
+                    u8g.drawStr(80, Ypos, texts.opn);  
                 }
                 
                 
@@ -172,23 +171,23 @@ void updateDisplay() {
             if(!globals.mWh);
             else if(globals.mWh<10) {
                 u8g.setPrintPos(Xpos+0, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(Xpos+12, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(Xpos+12, Ypos, texts.mWh);
             }
             else if(globals.mWh>=10 && globals.mWh<100) {
                 u8g.setPrintPos(Xpos+0, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(Xpos+23, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(Xpos+23, Ypos, texts.mWh);
             }
             else if(globals.mWh>=100 && globals.mWh<1000) {
                 u8g.setPrintPos(Xpos+0, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(Xpos+32, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(Xpos+32, Ypos, texts.mWh);
             }
             else if(globals.mWh>=1000 && globals.mWh<10000) {
                 u8g.setPrintPos(Xpos+0, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(Xpos+43, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(Xpos+43, Ypos, texts.mWh);
             }
             else {
                 float Wh = 0;
@@ -196,16 +195,16 @@ void updateDisplay() {
                 u8g.setPrintPos(Xpos+0, Ypos);
                 if(globals.mWh>=10000 && globals.mWh<100000) {
                     u8g.print(Wh,2);
-                    u8g.drawStr(Xpos+43, Ypos, "Wh");    
+                    u8g.drawStr(Xpos+43, Ypos, texts.Wh);    
                 }
                 else if(globals.mWh>=100000 && globals.mWh<1000000) {
                     u8g.print(Wh,1);
-                    u8g.drawStr(Xpos+43, Ypos, "Wh");
+                    u8g.drawStr(Xpos+43, Ypos, texts.Wh);
                 }
                 else {    
                     u8g.setPrintPos(Xpos+0, Ypos);
                     u8g.print(Wh,0);
-                    u8g.drawStr(Xpos+39, Ypos, "Wh");
+                    u8g.drawStr(Xpos+39, Ypos, texts.Wh);
                 }
                 
             }
@@ -230,15 +229,15 @@ void updateDisplay() {
             if(globals.sourceVolt>=0.1 && globals.sourceVolt <10) {
                 u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(23, Ypos, "V"); 
+                u8g.drawStr(23, Ypos, texts.v); 
             }
             else if(globals.sourceVolt>=10) {
                 u8g.setPrintPos(0, Ypos);
                 u8g.print(globals.sourceVolt);
-                u8g.drawStr(28, Ypos, "V");
+                u8g.drawStr(28, Ypos, texts.v);
             }
             else if(globals.sourceVolt<0.1) {
-                u8g.drawStr(0, Ypos, "N/A");
+                u8g.drawStr(0, Ypos, texts.na);
             }
 
             // show load Impedance
@@ -249,41 +248,41 @@ void updateDisplay() {
                 Ypos = 37;
             }
 
-            if(globals.loadimpedance == 0 && globals.current>1) {
-                u8g.drawStr(92, Ypos, "SHORT");
+            if(globals.loadimpedance == 0 && globals.current>1000) {
+                u8g.drawStr(92, Ypos, texts.shrt);
             }
             else if(globals.loadimpedance>0 && globals.loadimpedance <10) {
                 u8g.setPrintPos(116, Ypos);
                 u8g.print(globals.loadimpedance);
-                u8g.drawStr(123, Ypos, "E");   
+                u8g.drawStr(123, Ypos, texts.e);   
             }
             else if(globals.loadimpedance>=10 && globals.loadimpedance <100) {   // if current is non zero
                 u8g.setPrintPos(110, Ypos);
                 u8g.print(globals.loadimpedance);
-                u8g.drawStr(123, Ypos, "E");   
+                u8g.drawStr(123, Ypos, texts.e);   
             }
             else if(globals.loadimpedance>=100 && globals.loadimpedance <1000) {
                 u8g.setPrintPos(104, Ypos);
                 u8g.print(globals.loadimpedance);
-                u8g.drawStr(123, Ypos, "E");
+                u8g.drawStr(123, Ypos, texts.e);
             }
             else if(globals.loadimpedance>=1000 && globals.loadimpedance<10000) {
                 u8g.setPrintPos(99, Ypos);
                 u8g.print(globals.loadimpedance/1000.0, 2);
-                u8g.drawStr(122, Ypos, "K");
+                u8g.drawStr(122, Ypos, texts.k);
             }
             else if(globals.loadimpedance>=10000 && globals.loadimpedance<100000) {
                 u8g.setPrintPos(99, Ypos);
                 u8g.print(globals.loadimpedance/1000.0, 1);
-                u8g.drawStr(122, Ypos, "K");
+                u8g.drawStr(122, Ypos, texts.k);
             }
             else if(globals.loadimpedance>=100000 && globals.loadimpedance<1000000) {
                 u8g.setPrintPos(102, Ypos);
                 u8g.print(globals.loadimpedance/1000.0, 0);
-                u8g.drawStr(122, Ypos, "K");
+                u8g.drawStr(122, Ypos, texts.k);
             }   
             else if(globals.loadimpedance>=1000000) {
-                u8g.drawStr(98, Ypos, "OPEN");
+                u8g.drawStr(98, Ypos, texts.opn);
             }
             
 
@@ -310,17 +309,17 @@ void updateDisplay() {
                 else if(mW<10){
                     u8g.setPrintPos(103, Ypos);
                     u8g.print(mW);
-                    u8g.drawStr(111, Ypos, "mW");
+                    u8g.drawStr(111, Ypos, texts.mW);
                 }
                 else if(mW>=10 && mW<100){
                     u8g.setPrintPos(95, Ypos);
                     u8g.print(mW);
-                    u8g.drawStr(111, Ypos, "mW");
+                    u8g.drawStr(111, Ypos, texts.mW);
                 }
                 else {
                     u8g.setPrintPos(89, Ypos);
                     u8g.print(mW);
-                    u8g.drawStr(111, Ypos, "mW");
+                    u8g.drawStr(111, Ypos, texts.mW);
                 }
             }
 
@@ -334,23 +333,23 @@ void updateDisplay() {
             if(!globals.mWh);
             else if(globals.mWh>0 && globals.mWh<10) {
                 u8g.setPrintPos(50, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(58, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(58, Ypos, texts.mWh);
             }
             else if(globals.mWh>=10 && globals.mWh<100) {
                 u8g.setPrintPos(46, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(62, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(62, Ypos, texts.mWh);
             }
             else if(globals.mWh>=100 && globals.mWh<1000) {
                 u8g.setPrintPos(40, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(62, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(62, Ypos, texts.mWh);
             }
             else if(globals.mWh>=1000 && globals.mWh<10000) {
                 u8g.setPrintPos(37, Ypos);
-                u8g.print(globals.mWh);
-                u8g.drawStr(66, Ypos, "mWh");
+                u8g.print(globals.mWh, 0);
+                u8g.drawStr(66, Ypos, texts.mWh);
             }
             else {
                 float Wh = 0;
@@ -364,7 +363,7 @@ void updateDisplay() {
                     u8g.setPrintPos(44, Ypos);
                     u8g.print(Wh,0);
                 }
-                u8g.drawStr(70, Ypos, "Wh");
+                u8g.drawStr(70, Ypos, texts.wr);
             }
 
 
@@ -379,29 +378,29 @@ void updateDisplay() {
             
             u8g.setFont(u8g_font_helvB12);
             uint16_t mA;
-            mA = globals.current*1000;
+            mA = globals.current;
 
-            if(globals.current >= 1) {
+            if(globals.current >= 1000) {
                 u8g.setPrintPos(41, Ypos);
-                u8g.print(globals.current, 2);
+                u8g.print(globals.current/1000, 2);
                 u8g.drawStr(75, Ypos, "A");
             }
             else {
                 if(mA<10) {
                     u8g.setPrintPos(45, Ypos);
                     u8g.print(mA);
-                    u8g.drawStr(57, Ypos, "mA");
+                    u8g.drawStr(57, Ypos, texts.mA);
                 }
                 else if(mA >=10 && mA < 100) {
                     u8g.setPrintPos(44, Ypos);
                     u8g.print(mA);
-                    u8g.drawStr(65, Ypos, "mA");
+                    u8g.drawStr(65, Ypos, texts.mA);
                 }
                 else {
                     u8g.setFont(u8g_font_courB10);
                     u8g.setPrintPos(42, Ypos);
                     u8g.print(mA);
-                    u8g.drawStr(71, Ypos, "mA");
+                    u8g.drawStr(71, Ypos, texts.mA);
                 }
             }
 
